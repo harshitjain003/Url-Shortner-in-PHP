@@ -1,28 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php
-require 'Config/connection.php';
-if (isset($_GET["l"])) {
-    if ($_GET["l"] != '') {
-        $url = $_GET["l"];
-        $sql = "SELECT * FROM 'short_urls' where 'short_url' = '$url';";
-        $result = mysqli_query($con,$sql);
-        if (mysqli_num_rows($result)>0){
-            $data = mysqli_fetch_assoc($result);
-            echo $data['long_url'];
-        }
-    } else {
-        echo "invalid parameter";
-    }
-}
-?>
+<?php require 'Config/connection.php';?>
 
 <head>
     <title>Url Shortner By Harshit Jain</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="static/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -34,7 +19,7 @@ if (isset($_GET["l"])) {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
@@ -68,10 +53,11 @@ if (isset($_GET["l"])) {
         </div>
     </nav>
     <!-- NAVBAR ENDS -->
-    <div class="container mt-4">
+    <div class="container main-form mt-4">
+        <h1 class="m-3 text-center">Enter Link To Get A Short Link!</h1>
         <div class="row">
             <form class="d-flex" method="post">
-                <input class="form-control" type="url" name="url" value="" placeholder="Enter Url Here....." required>
+                <input class="form-control input" type="url" name="url" value="" placeholder="Enter Url Here....." required>
 
                 <button type="submit" name="generate" class="btn btn-primary mx-2">Generate</button>
             </form>
@@ -79,33 +65,35 @@ if (isset($_GET["l"])) {
         <?php
 
         if (isset($_POST['generate'])) {
-            $long_url = mysqli_real_escape_string($con, $_POST['url']); 
-            function getUrl() {
-                $n=10;
+            $long_url = mysqli_real_escape_string($con, $_POST['url']);
+            function getUrl()
+            {
+                $n = 10;
                 $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $randomString = '';
-            
+
                 for ($i = 0; $i < $n; $i++) {
                     $index = rand(0, strlen($characters) - 1);
                     $randomString .= $characters[$index];
                 }
-            
+
                 return $randomString;
             }
             $short_url = getUrl();
             $status = 1;
             $created_on = date("Y/m/d");
             $sql = "INSERT INTO `short_urls` (`long_url`, `short_url`, `status`,`created_on`) VALUES ('$long_url','$short_url','$status','$created_on');";
-            $query = mysqli_query($con,$sql); 
+            $query = mysqli_query($con, $sql);
+            $base_url = "localhost/url shortner/";
+            echo '<div class="alert mt-3 alert-info" role="alert">';
+            echo $base_url.$short_url;
+            echo '</div>';
 
+        
         }
 
         ?>
-        <div class="alert mt-3 alert-info" role="alert">
-            <?php
-            echo $long_url;
-            ?>
-        </div>
+        
     </div>
 
 

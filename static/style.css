@@ -1,0 +1,22 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.navbar {
+    border-bottom: 1px solid red;
+}
+
+form {
+    justify-content: center;
+}
+
+.main-form h1 {
+    font-size: 29px;
+}
+
+.input {
+    width: 60%;
+    height: 60px!important;
+}
