@@ -2,7 +2,7 @@
 
 session_start();
 
-$con = mysqli_connect('localhost','u508328414_harshitjain','=3[qL5JSckP','u508328414_allinone');
+$con = mysqli_connect('localhost','root','','url_shortner');
 
 if(!$con){
     echo"Can't Connect To Database";
